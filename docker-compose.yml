@@ -1,0 +1,107 @@
+version: "3.9"
+
+volumes:
+  crdb: null
+
+services:
+  gateway:
+    image: ghcr.io/apollographql/router:v1.19.0
+    volumes:
+      - ./router.yml:/etc/router.yml
+      - ./supergraph.graphql:/etc/supergraph.graphql
+    command: --supergraph /etc/supergraph.graphql --config /etc/router.yml
+    ports:
+      - "4000:4000"
+    env_file:
+      - compose-env
+  location-api:
+    &api_config
+    image: &location_api_image quay.io/nicolerenee/playground:location-v0.0.4
+    command: serve --dev
+    ports:
+      - "7906:7906"
+    env_file:
+      - compose-env
+    depends_on:
+      - create_databases
+      - nats
+    volumes:
+      - ./nats/api-creds:/nats-creds
+    restart: on-failure
+  tenant-api:
+    <<: *api_config
+    image: &tenant_api_image ghcr.io/infratographer/tenant-api:main-latest
+    ports:
+      - "7902:7902"
+  metadata-api:
+    <<: *api_config
+    image: &metadata_api_image ghcr.io/infratographer/metadata-api:main-latest
+    ports:
+      - "7905:7905"
+  node-resolver:
+    image: quay.io/nicolerenee/playground:node-resolver-v0.0.2
+    ports:
+      - "7904:7904"
+    env_file:
+      - compose-env
+  crdb:
+    image: cockroachdb/cockroach:latest-v23.1
+    command: start-single-node --insecure
+    restart: unless-stopped
+    volumes:
+      - crdb:/cockroach/cockroach-data
+    env_file:
+      - compose-env
+    healthcheck:
+      test: "curl --fail http://localhost:8080/health?ready=1 || exit 1"
+      interval: "2s"
+      retries: 3
+      start_period: "15s"
+      timeout: "5s"
+  nats:
+    image: "nats:alpine"
+    depends_on:
+      - nats-init
+    command:
+      - -c
+      - "/etc/nats/nats-server.conf"
+      - -D
+    volumes:
+      - ./nats/config:/etc/nats
+    restart: unless-stopped
+
+  create_databases:
+    image: cockroachdb/cockroach:latest-v22.2
+    restart: on-failure:5
+    command: "sql --insecure -e 'CREATE DATABASE IF NOT EXISTS location_api; CREATE DATABASE IF NOT EXISTS tenant_api; CREATE DATABASE IF NOT EXISTS metadata_api;'"
+    env_file:
+      - compose-env
+    depends_on:
+      - crdb
+  location-api-migrate:
+    &migrate_config
+    image: *location_api_image
+    command: migrate up
+    depends_on:
+      - create_databases
+    env_file:
+      - compose-env
+    restart: on-failure
+  tenant-api-migrate:
+    <<: *migrate_config
+    image: *tenant_api_image
+  metadata-api-migrate:
+    <<: *migrate_config
+    image: *metadata_api_image
+
+  nats-init:
+    image: natsio/nats-box
+    environment:
+      - NSC_HOME=/nsc
+    volumes:
+      - ./nats/nsc:/nsc
+      - ./nats/config:/nats
+      - ./nats/scripts:/scripts
+      - ./nats/api-creds:/api-creds
+    command:
+      - /scripts/nats_init.sh

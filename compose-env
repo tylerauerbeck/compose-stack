@@ -1,0 +1,10 @@
+COCKROACH_INSECURE=true
+COCKROACH_HOST=crdb:26257
+
+LOCATIONAPI_CRDB_URI="postgresql://root@crdb:26257/location_api?sslmode=disable"
+LOCATIONAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
+
+METADATAAPI_CRDB_URI="postgresql://root@crdb:26257/metadata_api?sslmode=disable"
+
+TENANTAPI_CRDB_URI="postgresql://root@crdb:26257/tenant_api?sslmode=disable"
+TENANTAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"

@@ -1,0 +1,4 @@
+# Don't check in generated nats config bits
+nats/api-creds/*
+nats/config/resolver.conf
+nats/nsc/*
