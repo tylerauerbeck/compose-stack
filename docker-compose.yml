@@ -16,7 +16,7 @@ services:
       - compose-env
   location-api:
     &api_config
-    image: &location_api_image quay.io/nicolerenee/playground:location-v0.0.4
+    image: &location_api_image ghcr.io/infratographer/location-api:main-latest
     command: serve --dev
     ports:
       - "7906:7906"
@@ -39,7 +39,7 @@ services:
     ports:
       - "7905:7905"
   node-resolver:
-    image: quay.io/nicolerenee/playground:node-resolver-v0.0.2
+    image: quay.io/nicolerenee/playground:node-resolver-v0.0.3
     ports:
       - "7904:7904"
     env_file:

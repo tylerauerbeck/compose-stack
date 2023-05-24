@@ -904,6 +904,7 @@ type Query
 
   """Get an annotation namespace by ID."""
   annotationNamespace(id: ID!): AnnotationNamespace! @join__field(graph: METADATA_API)
+  node(id: ID!): Node @join__field(graph: NODE_RESOLVER)
 
   """Lookup a tenant by ID."""
   tenant(
