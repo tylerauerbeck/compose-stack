@@ -211,3 +211,41 @@ The response should look something like:
   }
 }
 ```
+
+### Traversing interfaces
+
+Locations are owned by a ResourceOwner and not a Tenant. This requires the use of a GraphQL Fragment to traverse the graph from a Location to a Tenant. This is an example of a query that does that.
+
+```
+query {
+  node(id: "lctnloc-sEdikPSFsjYJjJxssdTkY") {
+    ... on Location {
+      name
+      owner {
+        ... on Tenant {
+          id
+          name
+          description
+        }
+      }
+    }
+  }
+}
+```
+
+Which will return a response that includes the tenant name and description. This leverages the node-resolver service to determine the actual object type of the ResourceOwner id that is returned by location api.
+
+```
+{
+  "data": {
+    "node": {
+      "name": "Just a test location",
+      "owner": {
+        "id": "tnntten-rXirlFQULBHDw9urtOjya",
+        "name": "Development",
+        "description": "Tenant for dev resources"
+      }
+    }
+  }
+}
+```

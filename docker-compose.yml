@@ -39,7 +39,7 @@ services:
     ports:
       - "7905:7905"
   node-resolver:
-    image: quay.io/nicolerenee/playground:node-resolver-v0.0.3
+    image: ghcr.io/infratographer/node-resolver:main-latest
     ports:
       - "7904:7904"
     env_file:
