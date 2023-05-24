@@ -16,22 +16,6 @@ supported.
 ## Known issues
 
 - Metadata API doesn't disable authn when in dev mode, so requests to metadata will require a valid JWT
-- Query fragments don't seem to work.
-  - This means things like this don't work:
-    ```
-    query {
-      location(id: "lctnloc-sEdikPSFsjYJjJxssdTkY") {
-        id
-        name
-        owner {
-          ... on Tenant {
-            id
-            name
-          }
-        }
-      }
-    }
-    ```
 
 
 ## Examples to get started
