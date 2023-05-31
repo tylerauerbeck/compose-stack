@@ -910,7 +910,7 @@ type Query
   tenant(
     """The ID of the tenant."""
     id: ID!
-  ): Tenant! @join__field(graph: TENANT_API)
+  ): Tenant @join__field(graph: TENANT_API)
 }
 
 interface ResourceOwner
