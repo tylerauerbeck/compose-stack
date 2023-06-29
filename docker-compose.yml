@@ -32,6 +32,11 @@ services:
     volumes:
       - ./nats/api-creds:/nats-creds
     restart: on-failure
+  load-balancer-api:
+    <<: *api_config
+    image: &load_balancer_api_image ghcr.io/infratographer/load-balancer-api:v0.0.19
+    ports:
+      - "7608:7608"
   tenant-api:
     <<: *api_config
     image: &tenant_api_image ghcr.io/infratographer/tenant-api:main-latest
@@ -77,7 +82,7 @@ services:
   create_databases:
     image: cockroachdb/cockroach:latest-v22.2
     restart: on-failure:5
-    command: "sql --insecure -e 'CREATE DATABASE IF NOT EXISTS location_api; CREATE DATABASE IF NOT EXISTS tenant_api; CREATE DATABASE IF NOT EXISTS metadata_api;'"
+    command: "sql --insecure -e 'CREATE DATABASE IF NOT EXISTS location_api; CREATE DATABASE IF NOT EXISTS tenant_api; CREATE DATABASE IF NOT EXISTS metadata_api; CREATE DATABASE IF NOT EXISTS load_balancer_api;'"
     env_file:
       - compose-env
     depends_on:
@@ -97,6 +102,10 @@ services:
   metadata-api-migrate:
     <<: *migrate_config
     image: *metadata_api_image
+  load-balancer-api-migrate:
+    <<: *migrate_config
+    image: *load_balancer_api_image
+
 
   nats-init:
     image: natsio/nats-box

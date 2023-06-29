@@ -9,3 +9,6 @@ METADATAAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 
 TENANTAPI_CRDB_URI="postgresql://root@crdb:26257/tenant_api?sslmode=disable"
 TENANTAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
+
+LOADBALANCERAPI_CRDB_URI=postgresql://root@crdb:26257/load_balancer_api?sslmode=disable"
+LOADBALANCERAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
