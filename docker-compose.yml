@@ -18,8 +18,7 @@ services:
     image: quay.io/nicolerenee/playground:ui-v0.0.1
     ports:
       - "8080:8080"
-  location-api:
-    &api_config
+  location-api: &api_config
     image: &location_api_image ghcr.io/infratographer/location-api:main-latest
     command: serve --dev
     ports:
@@ -47,7 +46,7 @@ services:
     image: &load_balancer_api_image ghcr.io/infratographer/load-balancer-api:main-latest
     command: serve --dev
     ports:
-      - "7905:7905"
+      - "7608:7608"
     env_file:
       - compose-env
     depends_on:
@@ -61,7 +60,7 @@ services:
     image: &ipam_api_image ghcr.io/infratographer/ipam-api:main-latest
     command: serve --dev
     ports:
-      - "7905:7905"
+      - "17905:7905"
     env_file:
       - compose-env
     depends_on:
@@ -124,8 +123,7 @@ services:
       - compose-env
     depends_on:
       - crdb
-  location-api-migrate:
-    &migrate_config
+  location-api-migrate: &migrate_config
     image: *location_api_image
     command: migrate up
     depends_on:
