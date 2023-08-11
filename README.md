@@ -7,16 +7,13 @@ This repo provides a sample docker compose that stands up the infratographer sta
 - [Tenant API](https://github.com/infratographer/tenant-api)
 - [Location API](https://github.com/infratographer/location-api)
 - [Metadata API](https://github.com/infratographer/metadata-api)
-
+- [Load Balancer API](https://github.com/infratographer/load-balancer-api)
+- [IPAM API ](https://github.com/infratographer/ipam-api)
+- [Resource Provider API](https://github.com/infratographer/resource-provider-api)
 
 To start the services you run `docker compose up` and then you can access the apollo router on port 4000. Loading this
 in your browser will show you the Apollo sandbox which allows you to run queries and see the GraphQL schema that is
 supported.
-
-## Known issues
-
-- Metadata API doesn't disable authn when in dev mode, so requests to metadata will require a valid JWT
-
 
 ## Examples to get started
 

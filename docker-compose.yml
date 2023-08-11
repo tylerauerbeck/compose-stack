@@ -18,8 +18,7 @@ services:
     image: quay.io/nicolerenee/playground:ui-v0.0.1
     ports:
       - "8080:8080"
-  location-api:
-    &api_config
+  location-api: &api_config
     image: &location_api_image ghcr.io/infratographer/location-api:main-latest
     command: serve --dev
     ports:
@@ -42,6 +41,48 @@ services:
     image: &metadata_api_image ghcr.io/infratographer/metadata-api:main-latest
     ports:
       - "7905:7905"
+  load-balancer-api:
+    <<: *api_config
+    image: &load_balancer_api_image ghcr.io/infratographer/load-balancer-api:main-latest
+    command: serve --dev
+    ports:
+      - "7608:7608"
+    env_file:
+      - compose-env
+    depends_on:
+      - create_databases
+      - nats
+    volumes:
+      - ./nats/api-creds:/nats-creds
+    restart: on-failure
+  ipam-api:
+    <<: *api_config
+    image: &ipam_api_image ghcr.io/infratographer/ipam-api:main-latest
+    command: serve --dev
+    ports:
+      - "17905:7905"
+    env_file:
+      - compose-env
+    depends_on:
+      - create_databases
+      - nats
+    volumes:
+      - ./nats/api-creds:/nats-creds
+    restart: on-failure
+  resource-provider-api:
+    <<: *api_config
+    image: &resource_provider_api_image ghcr.io/infratographer/resource-provider-api:main-latest
+    command: serve --dev
+    ports:
+      - "17608:17608"
+    env_file:
+      - compose-env
+    depends_on:
+      - create_databases
+      - nats
+    volumes:
+      - ./nats/api-creds:/nats-creds
+    restart: on-failure
   node-resolver:
     image: ghcr.io/infratographer/node-resolver:main-latest
     ports:
@@ -77,13 +118,12 @@ services:
   create_databases:
     image: cockroachdb/cockroach:latest-v22.2
     restart: on-failure:5
-    command: "sql --insecure -e 'CREATE DATABASE IF NOT EXISTS location_api; CREATE DATABASE IF NOT EXISTS tenant_api; CREATE DATABASE IF NOT EXISTS metadata_api;'"
+    command: "sql --insecure -e 'CREATE DATABASE IF NOT EXISTS location_api; CREATE DATABASE IF NOT EXISTS tenant_api; CREATE DATABASE IF NOT EXISTS metadata_api; CREATE DATABASE IF NOT EXISTS load_balancer_api; CREATE DATABASE IF NOT EXISTS resource_provider_api; CREATE DATABASE IF NOT EXISTS ipam_api;'"
     env_file:
       - compose-env
     depends_on:
       - crdb
-  location-api-migrate:
-    &migrate_config
+  location-api-migrate: &migrate_config
     image: *location_api_image
     command: migrate up
     depends_on:
@@ -97,6 +137,15 @@ services:
   metadata-api-migrate:
     <<: *migrate_config
     image: *metadata_api_image
+  load-balancer-api-migrate:
+    <<: *migrate_config
+    image: *load_balancer_api_image
+  ipam-api-migrate:
+    <<: *migrate_config
+    image: *ipam_api_image
+  resource-provider-api-migrate:
+    <<: *migrate_config
+    image: *resource_provider_api_image
 
   nats-init:
     image: natsio/nats-box
