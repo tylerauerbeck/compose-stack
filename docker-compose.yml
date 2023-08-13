@@ -158,3 +158,32 @@ services:
       - ./nats/api-creds:/api-creds
     command:
       - /scripts/nats_init.sh
+
+  nats-box:
+    image: natsio/nats-box
+    entrypoint: /bin/sleep
+    environment:
+      - NSC_HOME=/nsc
+    volumes:
+      - ./nats/nsc:/nsc
+      - ./nats/config:/nats
+      - ./nats/scripts:/scripts
+      - ./nats/api-creds:/api-creds
+    command:
+      - infinity
+    depends_on:
+      - nats
+
+  nats-stream-init:
+    image: natsio/nats-box
+    environment:
+      - NSC_HOME=/nsc
+    volumes:
+      - ./nats/nsc:/nsc
+      - ./nats/config:/nats
+      - ./nats/scripts:/scripts
+      - ./nats/api-creds:/api-creds
+    command:
+      - /scripts/stream_init.sh
+    depends_on:
+      - nats
