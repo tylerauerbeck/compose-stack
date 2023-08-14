@@ -2,25 +2,25 @@ COCKROACH_INSECURE=true
 COCKROACH_HOST=crdb:26257
 
 LOCATIONAPI_CRDB_URI="postgresql://root@crdb:26257/location_api?sslmode=disable"
-LOCATIONAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+LOCATIONAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 LOCATIONAPI_OIDC_ENABLED=false
 
 METADATAAPI_CRDB_URI="postgresql://root@crdb:26257/metadata_api?sslmode=disable"
-METADATAAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+METADATAAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 METADATAAPI_OIDC_ENABLED=false
 
 TENANTAPI_CRDB_URI="postgresql://root@crdb:26257/tenant_api?sslmode=disable"
-TENANTAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+TENANTAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 TENANTAPI_OIDC_ENABLED=false
 
 IPAMAPI_CRDB_URI="postgresql://root@crdb:26257/ipam_api?sslmode=disable"
-IPAMAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+IPAMAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 IPAMAPI_OIDC_ENABLED=false
 
 LOADBALANCERAPI_CRDB_URI="postgresql://root@crdb:26257/load_balancer_api?sslmode=disable"
-LOADBALANCERAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+LOADBALANCERAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 LOADBALANCERAPI_OIDC_ENABLED=false
 
 RESOURCEPROVIDERAPI_CRDB_URI="postgresql://root@crdb:26257/resource_provider_api?sslmode=disable"
-RESOURCEPROVIDERAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+RESOURCEPROVIDERAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
 RESOURCEPROVIDERAPI_OIDC_ENABLED=false
