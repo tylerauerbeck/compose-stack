@@ -1089,7 +1089,7 @@ enum join__Graph {
   METADATA_API @join__graph(name: "metadata-api", url: "http://metadata-api:7905/query")
   NODE_RESOLVER @join__graph(name: "node-resolver", url: "http://node-resolver:7904/graphql")
   RESOURCE_PROVIDER_API @join__graph(name: "resource-provider-api", url: "http://resource-provider-api:17608/query")
-  TENANT_API @join__graph(name: "tenant-api", url: "http://tenant-api:7902/graphql")
+  TENANT_API @join__graph(name: "tenant-api", url: "http://tenant-api:7902/query")
 }
 
 """A valid JSON string."""
@@ -2754,7 +2754,7 @@ type Mutation
 
   """
   Set Annotation data for a node and annotation namespace to the given value.
-  
+
   annotationUpdate is an Upsert operation and will create the annotation if it doesn't already exists.
   """
   annotationUpdate(input: AnnotationUpdateInput!): AnnotationUpdateResponse! @join__field(graph: METADATA_API)
@@ -2767,7 +2767,7 @@ type Mutation
 
   """
   Delete an annotation namespace.
-  
+
   Setting force allowed deleting an annotation namespace even if annotations are using it.
   WARNING: Annotation data will be lost permenantly!
   """
@@ -2786,7 +2786,7 @@ type Mutation
 
   """
   Set Status data for a node and status namespace to the given value.
-  
+
   statusUpdate is an Upsert operation and will create the status if it doesn't already exists.
   """
   statusUpdate(input: StatusUpdateInput!): StatusUpdateResponse! @join__field(graph: METADATA_API)
@@ -2799,7 +2799,7 @@ type Mutation
 
   """
   Delete an status namespace.
-  
+
   Setting force allowed deleting an status namespace even if statuss are using it.
   WARNING: Status data will be lost permenantly!
   """

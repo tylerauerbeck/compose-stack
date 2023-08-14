@@ -12,8 +12,8 @@ METADATAAPI_EVENTS_PUBLISHER_PREFIX=com.infratographer
 METADATAAPI_OIDC_ENABLED=false
 
 TENANTAPI_CRDB_URI="postgresql://root@crdb:26257/tenant_api?sslmode=disable"
-TENANTAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
-TENANTAPI_EVENTS_PUBLISHER_PREFIX=com.infratographer
+TENANTAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+TENANTAPI_EVENTS_PREFIX=com.infratographer
 TENANTAPI_OIDC_ENABLED=false
 
 IPAMAPI_CRDB_URI="postgresql://root@crdb:26257/ipam_api?sslmode=disable"
@@ -22,8 +22,8 @@ IPAMAPI_EVENTS_PUBLISHER_PREFIX=com.infratographer
 IPAMAPI_OIDC_ENABLED=false
 
 LOADBALANCERAPI_CRDB_URI="postgresql://root@crdb:26257/load_balancer_api?sslmode=disable"
-LOADBALANCERAPI_EVENTS_PUBLISHER_NATS_CREDSFILE="/nats-creds/user.creds"
-LOADBALANCERAPI_EVENTS_PUBLISHER_PREFIX=com.infratographer
+LOADBALANCERAPI_EVENTS_NATS_CREDSFILE="/nats-creds/user.creds"
+LOADBALANCERAPI_EVENTS_PREFIX=com.infratographer
 LOADBALANCERAPI_OIDC_ENABLED=false
 
 RESOURCEPROVIDERAPI_CRDB_URI="postgresql://root@crdb:26257/resource_provider_api?sslmode=disable"
